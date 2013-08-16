@@ -1,0 +1,166 @@
+{ 
+  "name": "Cuby",
+  "scopeName": "source.cuby",
+  "fileTypes": ["cb|cbs"],
+  "patterns": [
+    { "include": "#class_definitions" },
+    { "include": "#method_definition" },
+    { "include": "#parameters" },
+    { "include": "#numbers" },
+    { "include": "#single_line_comment" },
+    { "include": "#class_method_calls" },
+    { "include": "#constant_variable" },
+    { "include": "#global_variable" },
+    { "include": "#class_variable" },
+    { "include": "#instance_variable" },
+    { "include": "#cuby_keywords" },
+    { "include": "#operators" },
+    { "include": "#double_quoted_string" },
+    { "include": "#special_methods" }
+  ],
+  "repository": {
+    "parameters": {
+      "begin": "\\|",
+      "beginCaptures": {
+        "0": { "name": "keyword.operator.parameter.begin.cuby" }
+      },
+      "end": "\\|",
+      "endCaptures": {
+        "0": { "name": "keyword.operator.parameter.end.cuby" }
+      },
+      "name": "function.parameter.list.cuby",
+      "patterns": [
+        { "include": "#class_variable" },
+        { "include": "#instance_variable" },
+        { "include": "#general_operators" }
+      ]
+    },
+    "boolean_operators": {
+      "comment": "Boolean Operators",
+      "match": "[<>]=|[<>]|\\bor\\b|\\band\\b|\\bnot\\b|\\bisnt\\b|\\bis\\b",
+      "name": "keyword.operator.boolean.cuby"
+    },
+    "assignment_operators": {
+      "comment": "Assignment operators",
+      "match": "\\*\\*=|[+\\/\\-=\\*%]?=",
+      "name": "keyword.operator.assignment.cuby"
+    },
+    "math_operators": {
+      "comment": "Math operators",
+      "match": "\\*\\*|[\\*\\-+\\/%]",
+      "name": "keyword.operator.math.cuby"
+    },
+    "general_operators": {
+      "comment": "General operators",
+      "match": "::|:|\\(|\\)|\\[|\\]|\\?|,",
+      "name": "keyword.operator.general.cuby"
+    },
+    "operators": {
+      "patterns": [
+        { "include": "#boolean_operators" },
+        { "include": "#assignment_operators" },
+        { "include": "#math_operators" },
+        { "include": "#general_operators" }
+      ]
+    },
+    "numbers": {
+      "comment": "Integer and Float",
+      "match": "(?:(?:0|[\\d_]+)\\.[\\d_]+)|(?:[\\d_]+)",
+      "name": "constant.numeric.cuby"
+    },
+    "single_line_comment": {
+      "comment": "Single line comment",
+      "match": "#.*",
+      "name": "comment.line.cuby"
+    },
+    "cuby_keywords": {
+      "comment": "Keywords",
+      "match": "(?:\\b(do|end|class|load|if|while|namespace|else|elsif|return|break|next|true|yes|on|false|no|off|nil|self|property)\\b)|(\\bdefined\\?)",
+      "name": "constant.keyword.cuby"
+    },
+    "constant_variable": {
+      "comment": "Constant",
+      "match": "\\b([A-Z][a-zA-Z0-9_\\-]+[a-zA-Z0-9_])\\b",
+      "name": "variable.other.constant.cuby"
+    },
+    "global_variable": {
+      "comment": "Global Variables",
+      "match": "\\$[a-zA-Z_][a-zA-Z0-9_\\-]+[a-zA-Z0-9_]\\b",
+      "name": "variable.other.global.cuby"
+    },
+    "class_variable": {
+      "comment": "Class variables start with @@",
+      "match": "@@[a-zA-Z_][a-zA-Z0-9_\\-]+[a-zA-Z0-9_]\\b",
+      "name": "variable.other.class.cuby"
+    },
+    "instance_variable": {
+      "comment": "Instance variable",
+      "match": "@[a-zA-Z_][a-zA-Z0-9_\\-]+[a-zA-Z0-9_]\\b",
+      "name": "variable.other.instance.cuby"
+    },
+    "method_definition": {
+      "comment": "Method name",
+      "match": "([a-zA-Z_][a-zA-Z0-9_\\-]+[a-zA-Z0-9_])\\s+(do)",
+      "captures": {
+        "1": { "name": "entity.name.function.cuby" },
+        "2": { "name": "constant.keyword.function.start.cuby" }
+      }
+    },
+    "interpolated_cuby": {
+      "comment": "Interpolated Cuby variables",
+      "begin": "\\#\\{",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.embedded.cuby" }
+      },
+      "end": "\\}",
+      "name": "source.cuby.embedded.cuby",
+      "patterns": [
+        { "include": "#constant_variable" },
+        { "include": "#global_variable" },
+        { "include": "#class_variable" },
+        { "include": "#instance_variable" },
+      ]
+    },
+    "special_methods": {
+      "comment": "Special methods, like 'new'",
+      "match": "new",
+      "name": "keyword.other.special-method.cuby"
+    },
+    "class_method_calls": {
+      "comment": "Method calls",
+      "match": "([A-Z][a-zA-Z0-9_\\-]+[A-Za-z0-9_])\\.",
+      "captures": {
+        "1": { "name": "support.class.cuby" }
+      }
+    },
+    "double_quoted_string": {
+      "comment": "Double quoted string",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.cuby" }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.cuby" }
+      },
+      "name": "string.quoted.double.cuby",
+      "patterns": [
+        {
+          "comment": "Escaped character",
+          "match": "\\\\.",
+          "name": "constant.character.escape.cuby"
+        },
+        { "include": "#interpolated_cuby" }
+      ]
+    },
+    "class_definitions": {
+      "comment": "Class definitions",
+      "match": "(class)\\s+([A-Z][a-zA-Z_\\-]+[a-zA-Z_])",
+      "captures": {
+        "1": { "name": "constant.keyword.class.cuby" },
+        "2": { "name": "entity.name.type.class.cuby" }
+      }
+    }
+  },
+  "uuid": "b14a47ec-d7dd-44c7-9d8f-ee97fbd52e85"
+}
